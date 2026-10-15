@@ -72,6 +72,7 @@ px4_add_romfs_files(
 	3011_jsbsim_hexarotor_x
 
 	4001_gz_x500
+	4021_gz_x500_arpl_mocap
 	4002_gz_x500_depth
 	4003_gz_rc_cessna
 	4004_gz_standard_vtol

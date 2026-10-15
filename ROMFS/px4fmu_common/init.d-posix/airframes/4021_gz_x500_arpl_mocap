@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# @name Gazebo x500 ARPL (UBT) with motion-capture-like EKF
+#
+# @type Quadrotor
+#
+# @maintainer Miguel Gil Castilla
+#
+# x500 (4001) for the UBT/ARPL simulation of the Vicon-room experiments.
+# The EKF is configured like an indoor motion-capture setup: position, height
+# and yaw come from external vision (fmu/in/vehicle_visual_odometry), which
+# grvc-bt's ubt_gz_bridge publishes from the Gazebo ground-truth pose.
+# GPS and barometer are not fused, so the local position does not drift and
+# its origin matches the gz world origin (as with Vicon in the real room).
+#
+
+. ${R}etc/init.d-posix/airframes/4001_gz_x500
+
+# External vision: horizontal position, vertical position, velocity, yaw
+param set-default EKF2_EV_CTRL 15
+param set-default EKF2_HGT_REF 3
+param set-default EKF2_EV_DELAY 0
+param set-default EKF2_EVP_NOISE 0.01
+param set-default EKF2_EVA_NOISE 0.02
+
+# Indoor: no GPS, no baro, no magnetometer (yaw from external vision)
+param set-default EKF2_GPS_CTRL 0
+param set-default EKF2_BARO_CTRL 0
+param set-default EKF2_MAG_TYPE 5
+param set-default SYS_HAS_MAG 0
+param set-default COM_ARM_WO_GPS 1
